@@ -1,0 +1,5 @@
+Highly skewed column (possible outliers): no_of_children
+Highly skewed column (possible outliers): required_car_parking_space
+Highly skewed column (possible outliers): repeated_guest
+Highly skewed column (possible outliers): no_of_previous_cancellations
+Highly skewed column (possible outliers): no_of_previous_bookings_not_canceled

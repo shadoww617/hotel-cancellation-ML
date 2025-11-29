@@ -1,0 +1,44 @@
+name: Hotel Cancellation ML Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  train-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set Up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run ML Pipeline
+      run: |
+        python src/main.py
+
+    - name: Verify Model Saving
+      run: |
+        if [ ! -f "models/best_model.joblib" ]; then
+          echo "Model file not found!"
+          exit 1
+        else
+          echo "Model successfully saved."
+        fi
+
+    - name: Upload Trained Model Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: trained-xgboost-model
+        path: models/best_model.joblib
