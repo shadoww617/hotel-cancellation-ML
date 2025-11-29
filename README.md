@@ -19,7 +19,6 @@ The target variable is:
 Dataset Source: Kaggle – Hotel Reservations Classification Dataset
 
 ---
----
 
 ## 3. Exploratory Data Analysis (EDA)
 
@@ -123,6 +122,18 @@ Feature importance analysis from the final tuned XGBoost model showed that lead 
 ## 12. Model Saving & Usage
 The final trained model is saved as: models/best_model.joblib
 
+Before loading the model, ensure the production environment has the same dependencies installed:
+
+```
+pip install -r requirements.txt
+```
+It can be loaded in production using:
+```
+import joblib
+
+model = joblib.load("models/best_model.joblib")
+predictions = model.predict(new_data)
+```
 ---
 
 ## 13. CI/CD Automation
