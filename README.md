@@ -1,4 +1,3 @@
-
 # Hotel Booking Cancellation Prediction
 
 ## 1. Project Overview
@@ -7,8 +6,19 @@ This project builds a machine learning pipeline to predict whether a hotel booki
 ---
 
 ## 2. Dataset Description
-The dataset contains hotel reservation records with customer, booking, stay, and pricing information. The target variable is `booking_status`, which indicates whether a booking was canceled or not.
+The dataset contains hotel reservation records including:
+- Booking details
+- Stay duration
+- Guest composition
+- Pricing information
+- Market segment and customer history
 
+The target variable is:
+- `booking_status` (0 = Not Canceled, 1 = Canceled)
+
+Dataset Source: Kaggle – Hotel Reservations Classification Dataset
+
+---
 ---
 
 ## 3. Exploratory Data Analysis (EDA)
@@ -47,16 +57,37 @@ Feature engineering was performed to enhance the predictive power of the models 
 
 ---
 
-## 6. Class Imbalance Handling
-The dataset is imbalanced with fewer cancellation cases. This was handled using:
-- SMOTE for Random Forest and XGBoost
-- Class weighting for Logistic Regression
-- `scale_pos_weight` for XGBoost
+## 6. Outlier Detection and Treatment
+Outliers were detected in numerical features such as:
+- Lead time
+- Average room price
+
+These were treated using:
+- Percentile-based capping (winsorization at 1st and 99th percentiles)
+
+This prevents extreme values from skewing model learning.
 
 ---
 
-## 7. Models Trained
-- Logistic Regression
+## 7. Encoding of Categorical Variables
+- Nominal categorical features were encoded using One-Hot Encoding
+- Ordinal categories were encoded using ordered mapping
+- Encoding was applied within a preprocessing pipeline to avoid data leakage
+
+---
+
+## 8. Class Imbalance Handling
+The target variable was imbalanced. This was handled using:
+- SMOTE for Random Forest and XGBoost
+- Class weights for Logistic Regression
+- `scale_pos_weight` parameter for XGBoost
+
+---
+
+## 9. Models Trained
+The following models were trained and compared:
+
+- Logistic Regression (baseline)
 - Random Forest
 - XGBoost (final production model)
 
@@ -64,23 +95,44 @@ Hyperparameter tuning was applied to XGBoost using RandomizedSearchCV.
 
 ---
 
-## 8. Model Evaluation
-Evaluation was performed using:
+## 10. Model Evaluation
+Models were evaluated using:
 - Accuracy
 - Precision
 - Recall
-- F1-score
+- F1-Score
 - ROC-AUC
 - Confusion Matrix
 
-All evaluation artifacts are stored in `artifacts/eval/`.
+All evaluation artifacts are stored in:
+artifacts/eval/
+
+This includes:
+- Classification report
+- Confusion matrix plot
+- ROC curve
+- Feature importance plot
 
 ---
 
-## 9. Most Important Features & Business Interpretation
+## 11. Most Important Features & Business Interpretation
 Feature importance analysis from the final tuned XGBoost model showed that lead time, average price per person, previous cancellation ratio, market segment type, and total stay nights were the most influential predictors of cancellation. Lead time indicates that very early and last-minute bookings are at higher risk of cancellation. Average price per person reflects price sensitivity. Previous cancellation ratio highlights repeat cancellers. Market segment differentiates cancellation behavior across booking channels. Total stay nights captures commitment strength. From a business perspective, these insights support strategic overbooking, targeted confirmations, dynamic pricing, and customer reliability scoring to reduce revenue loss.
 
 ---
 
-## 10. Model Saving & Usage
+## 12. Model Saving & Usage
 The final trained model is saved as: models/best_model.joblib
+
+---
+
+## 13. CI/CD Automation
+
+A GitHub Actions CI/CD workflow was implemented to automate:
+-> Dependency installation from requirements.txt
+-> End-to-end pipeline execution
+-> Model validation
+-> Model saving
+-> Automatic artifact upload of trained model
+
+---
+---
