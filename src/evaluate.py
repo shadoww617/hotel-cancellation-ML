@@ -31,7 +31,7 @@ def evaluate(model, X_test, y_test):
         with open("artifacts/eval/classification_report.txt", "w") as f:
             f.write(report)
 
-        # 2. CONFUSION MATRIX (LABELED)
+        # 2. CONFUSION MATRIX
         logger.info("Plotting confusion matrix")
 
         plt.figure(figsize=(6, 6))
@@ -53,7 +53,7 @@ def evaluate(model, X_test, y_test):
 
         logger.info(f"Confusion matrix saved to {cm_path}")
 
-        # 3. ROC CURVE (LABELED)
+        # 3. ROC CURVE
         logger.info("Plotting ROC curve")
 
         plt.figure(figsize=(6, 6))
